@@ -31,7 +31,7 @@ const addProductsToCart = async(request, response) => {
 
 const getAllCartItems = async(request, response) => {
     try{
-        const cartDataItems = await cartModel.find()
+        const cartDataItems = await cartModel.find().sort({productCost : -1})
         response.status(200).json(cartDataItems)
     }
     catch(error)
@@ -54,6 +54,7 @@ const getCartTotal = async(request, response) => {
 const checkOutCart = async(request, response) => {
     try{
         const checkOutData = await cartModel.collection.drop()
+        cartItemsArray = [0]
         response.status(200).json(checkOutData)
     }
     catch(error)
