@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const imageUpload = require('../middlewares/imageUpload')
-const {getAllProducts, addNewProduct, getFileByName} = require('../controllers/productsController')
+const {getAllProducts, addNewProduct, getFileByName, deleteAProduct} = require('../controllers/productsController')
 const {addProductsToCart, getAllCartItems, getCartTotal, checkOutCart} = require('../controllers/shoppingCartController')
 
 router.route('/').get(getAllProducts)
+router.route('/delete').delete(deleteAProduct)
 
 router.route('/assets/:filename').get(getFileByName)
 

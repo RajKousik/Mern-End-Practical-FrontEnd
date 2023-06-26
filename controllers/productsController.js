@@ -4,7 +4,7 @@ const PORT = 3500
 
 const getAllProducts = async(request, response) => {
     try{
-        const productData = await productModel.find()
+        const productData = await productModel.find().sort({productID : 1})
         response.status(200).send(productData)
     }
     catch(error)
@@ -54,6 +54,21 @@ const addNewProduct = async(request, response) => {
     }
 }
 
+const deleteAProduct = async (request, response) => {
+    try{
+        const productIDToBeDeleted = request.body.productID;
+        const product = await productModel.find({productID : productIDToBeDeleted});
+        if(product.length == 0)
+        {
+            return response.status(404).json({ErrorMessage : `Product Not Found with id ${productIDToBeDeleted}`})
+        }
+        const deletedProduct = await productModel.deleteOne({productID : productIDToBeDeleted})
+        response.status(200).json(deletedProduct);
+    }
+    catch(error)
+    {
+        response.status(500).json({ErrorMessage:error.message})
+    }  
+}
 
-
-module.exports = {getAllProducts, addNewProduct, getFileByName}
+module.exports = {getAllProducts, addNewProduct, getFileByName, deleteAProduct}
